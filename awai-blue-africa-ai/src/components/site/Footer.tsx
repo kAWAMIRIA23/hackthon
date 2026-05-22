@@ -1,15 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { Twitter, Linkedin, Github, Heart } from "lucide-react";
-import { Logo } from "./Logo";
+import { Logo, AWAI_MISSION } from "./Logo";
 
 export function Footer() {
   return (
     <footer className="bg-[var(--ocean-deep)] text-white/80">
       <div className="max-w-7xl mx-auto px-5 lg:px-8 py-14 grid gap-10 md:grid-cols-3">
         <div>
-          <Logo light />
-          <p className="mt-4 text-sm text-white/65 max-w-xs">
-            AI for a Cleaner Africa. Classify waste. Surface data. Drive change.
+          <Logo light clickable />
+          <p className="mt-4 text-sm text-white/65 max-w-sm leading-relaxed">
+            {AWAI_MISSION}
           </p>
         </div>
         <div className="flex md:justify-center">

@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X, Sparkles } from "lucide-react";
-import { Logo } from "./Logo";
+import { Logo, AWAI_MISSION_SHORT } from "./Logo";
 
 const links = [
   { to: "/", label: "Home" },
@@ -34,9 +34,7 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-5 lg:px-8 h-18 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center">
-          <Logo light />
-        </Link>
+        <Logo light showTagline clickable />
 
         <nav className="hidden md:flex items-center gap-1">
           {links.map((l) => {
@@ -79,6 +77,9 @@ export function Navbar() {
 
       {open && (
         <div className="md:hidden bg-[var(--ocean-deep)] border-t border-white/10 px-5 py-4 space-y-1">
+          <p className="text-xs text-white/60 leading-relaxed pb-3 border-b border-white/10">
+            {AWAI_MISSION_SHORT}
+          </p>
           {links.map((l) => {
             const active = location.pathname === l.to;
             return (
