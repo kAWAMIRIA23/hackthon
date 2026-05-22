@@ -1,7 +1,7 @@
 import tailwindcss from "@tailwindcss/vite";
-import { cloudflare } from "@cloudflare/vite-plugin";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import react from "@vitejs/plugin-react";
+import { nitro } from "nitro/vite";
 import { defineConfig, loadEnv } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -25,12 +25,10 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     }),
+    // Nitro must run on production build so Vercel gets .vercel/output (SSR routes)
+    ...(command === "build" ? [nitro({ preset: "vercel" })] : []),
     react(),
   ];
-
-  if (command === "build") {
-    plugins.unshift(cloudflare({ viteEnvironment: { name: "ssr" } }));
-  }
 
   return {
     define: envDefine,
