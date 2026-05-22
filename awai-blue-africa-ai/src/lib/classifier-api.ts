@@ -4,6 +4,8 @@ export interface PredictResponse {
   category: string;
   confidence: number;
   probabilities: Record<string, number>;
+  top2?: { category: string; confidence: number }[];
+  low_confidence?: boolean;
 }
 
 export async function classifyImage(file: File): Promise<PredictResponse> {

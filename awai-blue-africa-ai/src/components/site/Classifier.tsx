@@ -21,6 +21,8 @@ export function Classifier() {
   const [isVideo, setIsVideo] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [result, setResult] = useState<ClassificationResult | null>(null);
+  const [probabilities, setProbabilities] = useState<Record<string, number> | null>(null);
+  const [runnerUp, setRunnerUp] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [apiOnline, setApiOnline] = useState<boolean | null>(null);
   const [dragOver, setDragOver] = useState(false);
@@ -36,6 +38,8 @@ export function Classifier() {
     setPreview(URL.createObjectURL(f));
     setStatus("ready");
     setResult(null);
+    setProbabilities(null);
+    setRunnerUp(null);
     setError(null);
   };
 
@@ -51,6 +55,8 @@ export function Classifier() {
     setPreview("");
     setStatus("idle");
     setResult(null);
+    setProbabilities(null);
+    setRunnerUp(null);
     setError(null);
   };
 
@@ -64,11 +70,20 @@ export function Classifier() {
 
     setStatus("loading");
     setResult(null);
+    setProbabilities(null);
+    setRunnerUp(null);
     setError(null);
 
     try {
       const data = await classifyImage(file);
       setResult(mapPrediction(data.category, data.confidence));
+      setProbabilities(data.probabilities);
+      const second = data.top2?.[1];
+      if (second && second.confidence > 0.2 && data.confidence - second.confidence < 0.2) {
+        setRunnerUp(
+          `Close call: also looks like ${second.category} (${Math.round(second.confidence * 100)}%)`,
+        );
+      }
       setStatus("done");
       setApiOnline(true);
     } catch (err) {
@@ -228,6 +243,38 @@ export function Classifier() {
               </div>
 
               <p className="mt-5 text-sm text-ink/80">{result.tip}</p>
+
+              {runnerUp && (
+                <p className="mt-3 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                  {runnerUp}
+                </p>
+              )}
+
+              {probabilities && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+                    All class scores
+                  </p>
+                  <ul className="space-y-1.5">
+                    {Object.entries(probabilities)
+                      .sort(([, a], [, b]) => b - a)
+                      .map(([name, score]) => (
+                        <li key={name} className="flex items-center gap-2 text-xs">
+                          <span className="w-16 capitalize text-ink/70">{name}</span>
+                          <div className="flex-1 h-1.5 rounded-full bg-secondary overflow-hidden">
+                            <div
+                              className="h-full bg-teal-brand rounded-full"
+                              style={{ width: `${Math.round(score * 100)}%` }}
+                            />
+                          </div>
+                          <span className="w-8 text-right font-medium text-ink">
+                            {Math.round(score * 100)}%
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              )}
 
               {result.kind === "waste" && (
                 <Link

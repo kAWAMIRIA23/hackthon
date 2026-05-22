@@ -4,9 +4,8 @@ from fastapi.responses import JSONResponse
 import io
 import os
 import importlib.util
+
 from PIL import Image
-import numpy as np
-import tensorflow as tf
 
 # Dynamically load local utils.py to reuse model loading logic
 utils_path = os.path.join(os.path.dirname(__file__), "utils.py")
@@ -14,12 +13,13 @@ spec = importlib.util.spec_from_file_location("waste_utils", utils_path)
 wutils = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(wutils)
 
+from predict_core import format_result, predict_with_tta
+
 model = wutils.model
 CATEGORIES = wutils.CATEGORIES
 
 app = FastAPI(title="Waste Classification API")
 
-# Enable CORS for local frontend development (adjust origins for production)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,9 +28,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/")
 def read_root():
-    return {"status": "ok", "message": "Waste Classification API is running"}
+    return {"status": "ok", "message": "Waste Classification API is running", "categories": CATEGORIES}
+
 
 ALLOWED_TYPES = {"image/jpeg", "image/png", "image/webp", "image/jpg"}
 
@@ -51,26 +53,11 @@ async def predict(file: UploadFile = File(...)):
     contents = await file.read()
 
     try:
-        img = Image.open(io.BytesIO(contents)).convert("RGB")
+        img = Image.open(io.BytesIO(contents))
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid image file")
 
-    # Preprocess: resize and normalize to match training preprocessing
-    img = img.resize((128, 128))
-    img_array = tf.keras.preprocessing.image.img_to_array(img)
-    img_array = np.expand_dims(img_array, 0) / 255.0
+    probs = predict_with_tta(model, img)
+    result = format_result(probs, CATEGORIES)
 
-    # Run model
-    preds = model.predict(img_array)
-    probs = preds[0]
-    top_idx = int(np.argmax(probs))
-    category = CATEGORIES[top_idx]
-    confidence = float(probs[top_idx])
-
-    return JSONResponse({
-        "category": category,
-        "confidence": confidence,
-        "probabilities": {CATEGORIES[i]: float(probs[i]) for i in range(len(CATEGORIES))},
-    })
-
-# For quick local run: `uvicorn api:app --host 0.0.0.0 --port 8000`
+    return JSONResponse(result)

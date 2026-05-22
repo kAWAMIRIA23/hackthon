@@ -3,7 +3,7 @@ import { Layout } from "@/components/site/Layout";
 import {
   CheckCircle2, Cpu, Coins, Brush, Tractor, GraduationCap, Droplets, Landmark,
   Globe2, Database, ArrowRight, Recycle, Sparkles, Palette, Shirt, Building2,
-  Zap, HardHat,
+  Zap, HardHat, ExternalLink,
 } from "lucide-react";
 
 export const Route = createFileRoute("/solutions")({
@@ -30,23 +30,47 @@ const incomeCards = [
     icon: Recycle,
     title: "Plastic Recycling Cooperatives",
     text: "Women-led cooperatives in Rwanda, Uganda, and South Africa collect and sell plastic waste to recycling facilities, earning $2–5 per kg and creating dignified income from what others discard.",
+    href: "https://agroplastrwanda.org/",
+    linkLabel: "Agro Plast — Rwanda",
   },
   {
     icon: HardHat,
     title: "Waste-to-Bricks",
     text: "Entrepreneurs in Uganda and Kenya compress plastic waste into building bricks — 5–7x stronger than concrete — and sell them for construction at a fraction of traditional material costs, creating jobs and housing.",
+    href: "https://www.gjenge.co.ke/",
+    linkLabel: "Gjenge Makers — Kenya",
   },
   {
     icon: Zap,
     title: "Waste-to-Energy",
     text: "Cities like Kampala and Nairobi are piloting waste-to-energy plants that convert municipal solid waste into electricity for thousands of households. One tonne of waste can generate 500–600 kWh of clean energy.",
+    href: "https://nlspowerplant.com/",
+    linkLabel: "NLS Waste Powerplant — Kampala",
   },
 ];
 
 const artCards = [
-  { icon: Palette, title: "Sculpture & Visual Art", text: "Artists across Africa from Nairobi to Cape Town create award-winning sculptures from metal scrap, e-waste, and plastic bottles — exhibited in international galleries and redefining African creativity." },
-  { icon: Shirt, title: "Fashion & Textiles", text: "Designers in Accra, Lagos, and Dakar craft high-end fashion collections from recycled fabrics, bottle caps, and tyre rubber — proving Africa leads in sustainable circular fashion." },
-  { icon: Building2, title: "Community Architecture", text: "Communities in East and West Africa use discarded glass bottles, tyres, and plastic waste as building materials for eco-homes, schools, and community centres at up to 60% lower construction cost." },
+  {
+    icon: Palette,
+    title: "Sculpture & Visual Art",
+    text: "Artists across Africa from Nairobi to Cape Town create award-winning sculptures from metal scrap, e-waste, and plastic bottles — exhibited in international galleries and redefining African creativity.",
+    href: "https://oceansole.com/",
+    linkLabel: "Ocean Sole — Kenya",
+  },
+  {
+    icon: Shirt,
+    title: "Fashion & Textiles",
+    text: "Designers in Accra, Lagos, and Dakar craft high-end fashion collections from recycled fabrics, bottle caps, and tyre rubber — proving Africa leads in sustainable circular fashion.",
+    href: "https://adedehye.com/",
+    linkLabel: "Ade Dehye — Ghana",
+  },
+  {
+    icon: Building2,
+    title: "Community Architecture",
+    text: "Communities in East and West Africa use discarded glass bottles, tyres, and plastic waste as building materials for eco-homes, schools, and community centres at up to 60% lower construction cost.",
+    href: "https://pendezashelters.org/",
+    linkLabel: "Pendeza Shelters — Uganda",
+  },
 ];
 
 const sectorCards = [
@@ -115,9 +139,14 @@ function SolutionsPage() {
                   </div>
                   <span className="text-xs text-muted-foreground">Live preview</span>
                 </div>
-                <div className="aspect-video rounded-2xl bg-gradient-to-br from-[var(--ocean)] to-[var(--teal-brand)] flex items-center justify-center relative overflow-hidden">
-                  <Recycle className="h-20 w-20 text-white/40" />
-                  <div className="absolute top-3 left-3 inline-flex items-center gap-1 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+                <div className="aspect-video rounded-2xl relative overflow-hidden bg-[var(--ocean-deep)]">
+                  <img
+                    src="/images/model-preview.gif"
+                    alt="AWAI Blue model live classification preview"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-[var(--ocean)]/20 pointer-events-none" />
+                  <div className="absolute top-3 left-3 inline-flex items-center gap-1 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-full z-10">
                     <span className="h-2 w-2 rounded-full bg-white animate-pulse" /> ANALYZING
                   </div>
                 </div>
@@ -157,13 +186,26 @@ function SolutionsPage() {
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {incomeCards.map((c, i) => (
-              <div key={c.title} className="reveal bg-white text-ink rounded-3xl p-7 shadow-xl hover:-translate-y-1 transition-all" style={{ transitionDelay: `${i * 80}ms` }}>
-                <div className="h-12 w-12 rounded-2xl bg-[var(--earth-green)]/10 text-[var(--earth-green)] flex items-center justify-center">
+              <a
+                key={c.title}
+                href={c.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="reveal group flex flex-col bg-white text-ink rounded-3xl p-7 shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--teal-brand)]"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="h-12 w-12 rounded-2xl bg-[var(--earth-green)]/10 text-[var(--earth-green)] flex items-center justify-center group-hover:bg-[var(--earth-green)]/20 transition-colors">
                   <c.icon className="h-6 w-6" />
                 </div>
-                <h3 className="mt-5 text-lg font-bold text-ocean">{c.title}</h3>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{c.text}</p>
-              </div>
+                <h3 className="mt-5 text-lg font-bold text-ocean group-hover:text-[var(--earth-green)] transition-colors">
+                  {c.title}
+                </h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1">{c.text}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--earth-green)]">
+                  {c.linkLabel}
+                  <ExternalLink className="h-3.5 w-3.5 opacity-70 group-hover:opacity-100" />
+                </span>
+              </a>
             ))}
           </div>
         </div>
@@ -183,15 +225,28 @@ function SolutionsPage() {
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {artCards.map((c, i) => (
-              <div key={c.title} className="reveal bg-white rounded-3xl overflow-hidden shadow-xl hover:-translate-y-1 transition-all" style={{ transitionDelay: `${i * 80}ms` }}>
-                <div className="aspect-[5/3] bg-gradient-to-br from-[var(--amber-warm)] to-orange-600 flex items-center justify-center">
-                  <c.icon className="h-16 w-16 text-white/70" />
+              <a
+                key={c.title}
+                href={c.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="reveal group flex flex-col bg-white rounded-3xl overflow-hidden shadow-xl hover:-translate-y-1 hover:shadow-2xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal-brand)] focus-visible:ring-offset-2"
+                style={{ transitionDelay: `${i * 80}ms` }}
+              >
+                <div className="aspect-[5/3] bg-gradient-to-br from-[var(--amber-warm)] to-orange-600 flex items-center justify-center group-hover:from-orange-500 group-hover:to-orange-700 transition-colors">
+                  <c.icon className="h-16 w-16 text-white/70 group-hover:text-white/90 transition-colors" />
                 </div>
-                <div className="p-7">
-                  <h3 className="text-lg font-bold text-ocean">{c.title}</h3>
-                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{c.text}</p>
+                <div className="p-7 flex flex-col flex-1">
+                  <h3 className="text-lg font-bold text-ocean group-hover:text-teal-brand transition-colors">
+                    {c.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed flex-1">{c.text}</p>
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-brand">
+                    {c.linkLabel}
+                    <ExternalLink className="h-3.5 w-3.5 opacity-70 group-hover:opacity-100" />
+                  </span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

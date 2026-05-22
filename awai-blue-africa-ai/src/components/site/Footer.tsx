@@ -32,7 +32,7 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-5 lg:px-8 py-5 text-xs text-white/55 flex items-center justify-center gap-1.5">
-          Built with <Heart className="h-3.5 w-3.5 fill-[var(--teal-brand)] text-[var(--teal-brand)]" /> for the AWAI Hackathon 2025
+          Built with <Heart className="h-3.5 w-3.5 fill-[var(--teal-brand)] text-[var(--teal-brand)]" /> for the AWAI Hackathon 2026
         </div>
       </div>
     </footer>

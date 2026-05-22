@@ -81,16 +81,27 @@ function AboutPage() {
         body="In cities like Lagos, Nairobi, Kampala, and Accra, the average household generates over 0.5kg of waste daily. With fewer than 40% of urban homes having reliable waste collection, waste fills streets, schoolyards, and markets — turning the spaces where families live into health hazards. Children play in it. Mothers cook beside it. Communities are forced to accept it as normal. This is the everyday reality for hundreds of millions of people across Africa."
         badge="Only 4% of Africa's waste is formally recycled"
         imgLabel="Households & Communities"
-        imgPalette="from-[var(--ocean)] to-[var(--teal-brand)]"
+        imgSrc="/images/households-communities.jpg"
       />
 
       {/* SUB B — WATER */}
       <section className="bg-ocean-deep text-white py-24">
         <div className="max-w-7xl mx-auto px-5 lg:px-8 grid gap-14 lg:grid-cols-2 items-center">
           <div className="reveal order-2 lg:order-1">
-            <div className="aspect-[4/3] rounded-3xl bg-gradient-to-br from-[var(--teal-brand)] to-[var(--ocean)] border border-white/10 flex items-center justify-center relative overflow-hidden">
-              <Droplets className="h-32 w-32 text-white/30" />
-              <span className="absolute bottom-5 left-5 text-xs text-white/60 uppercase tracking-widest">Water sources</span>
+            <div className="rounded-3xl relative overflow-hidden border border-white/10 shadow-xl">
+              <img
+                src="/images/water-sources.jpg"
+                alt="Communities collecting water at a rural water source"
+                width={612}
+                height={408}
+                loading="eager"
+                decoding="async"
+                className="block w-full h-auto max-h-[520px] object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+              <span className="absolute bottom-5 left-5 text-xs text-white uppercase tracking-widest font-semibold drop-shadow-md">
+                Water sources
+              </span>
             </div>
           </div>
           <div className="reveal order-1 lg:order-2">
@@ -132,9 +143,20 @@ function AboutPage() {
             </div>
           </div>
           <div className="reveal">
-            <div className="aspect-[4/3] rounded-3xl bg-gradient-to-br from-[var(--amber-warm)] to-orange-600 flex items-center justify-center relative overflow-hidden">
-              <Wind className="h-32 w-32 text-white/40" />
-              <span className="absolute bottom-5 left-5 text-xs text-white/80 uppercase tracking-widest">Air & burning</span>
+            <div className="rounded-3xl relative overflow-hidden border border-border shadow-xl">
+              <img
+                src="/images/air-burning.jpg"
+                alt="Open burning of waste releasing toxic smoke into the air"
+                width={640}
+                height={392}
+                loading="eager"
+                decoding="async"
+                className="block w-full h-auto max-h-[520px] object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+              <span className="absolute bottom-5 left-5 text-xs text-white uppercase tracking-widest font-semibold drop-shadow-md">
+                Air & burning
+              </span>
             </div>
           </div>
         </div>
@@ -144,9 +166,20 @@ function AboutPage() {
       <section className="bg-[oklch(0.97_0.04_145)] py-24">
         <div className="max-w-7xl mx-auto px-5 lg:px-8 grid gap-14 lg:grid-cols-2 items-center">
           <div className="reveal order-2 lg:order-1">
-            <div className="aspect-[4/3] rounded-3xl bg-gradient-to-br from-[var(--earth-green)] to-[var(--ocean)] flex items-center justify-center relative overflow-hidden">
-              <Sprout className="h-32 w-32 text-white/40" />
-              <span className="absolute bottom-5 left-5 text-xs text-white/80 uppercase tracking-widest">Soil & farms</span>
+            <div className="rounded-3xl relative overflow-hidden border border-border shadow-xl">
+              <img
+                src="/images/soil-farms.jpg"
+                alt="Landfill waste contaminating soil near farmland"
+                width={825}
+                height={549}
+                loading="eager"
+                decoding="async"
+                className="block w-full h-auto max-h-[520px] object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+              <span className="absolute bottom-5 left-5 text-xs text-white uppercase tracking-widest font-semibold drop-shadow-md">
+                Soil & farms
+              </span>
             </div>
           </div>
           <div className="reveal order-1 lg:order-2">
@@ -251,9 +284,15 @@ function AboutPage() {
 }
 
 function SubSection({
-  eyebrow, icon, title, body, badge, imgLabel, imgPalette,
+  eyebrow, icon, title, body, badge, imgLabel, imgSrc,
 }: {
-  eyebrow: string; icon: React.ReactNode; title: string; body: string; badge?: string; imgLabel: string; imgPalette: string;
+  eyebrow: string;
+  icon: React.ReactNode;
+  title: string;
+  body: string;
+  badge?: string;
+  imgLabel: string;
+  imgSrc: string;
 }) {
   return (
     <section className="bg-background py-24">
@@ -271,9 +310,20 @@ function SubSection({
           )}
         </div>
         <div className="reveal">
-          <div className={`aspect-[4/3] rounded-3xl bg-gradient-to-br ${imgPalette} flex items-center justify-center relative overflow-hidden`}>
-            <Home className="h-32 w-32 text-white/30" />
-            <span className="absolute bottom-5 left-5 text-xs text-white/80 uppercase tracking-widest">{imgLabel}</span>
+          <div className="rounded-3xl relative overflow-hidden border border-border shadow-xl bg-[var(--ocean-deep)]">
+            <img
+              src={imgSrc}
+              alt={imgLabel}
+              width={612}
+              height={408}
+              loading="eager"
+              decoding="async"
+              className="block w-full h-auto max-h-[520px] object-cover object-center [image-rendering:auto]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+            <span className="absolute bottom-5 left-5 text-xs text-white uppercase tracking-widest font-semibold drop-shadow-md">
+              {imgLabel}
+            </span>
           </div>
         </div>
       </div>
