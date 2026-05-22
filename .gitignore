@@ -1,0 +1,30 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Node / frontend build
+node_modules/
+dist/
+.output/
+.wrangler/
+.tanstack/
+
+# Environment & secrets
+.env
+.env.local
+.dev.vars
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Large pretrained weights (not the trained classifier)
+mobilenet_v2_weights*.h5
+
+# Nested HF deploy clone (duplicate of waste-classification)
+waste-classification/space_repo/

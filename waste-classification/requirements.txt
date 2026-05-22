@@ -1,0 +1,9 @@
+gradio>=4.0
+tensorflow>=2.10
+pillow
+numpy
+scikit-learn
+huggingface_hub
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
